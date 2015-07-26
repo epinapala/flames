@@ -18,20 +18,43 @@ var Flames = function ()
     this.calculateFlamesResult = function (firstName, secondName)
     {
         var number = this.getFlamesCount(firstName, secondName);
-        var flamesArray = "flames".split("");
-        var iLast = 0,
-            iCurrent = 0;
-        var i = flamesArray.length;
-        while (i > 1) {
-            //this manages the pivot, iCurrent
-            iCurrent = (iLast + (number % i) - 1) % i;
-            //remove the char where pivot stops.
-            flamesArray.splice(iCurrent, 1);
-            //reset last character to current pivot, for recalc.
-            iLast = iCurrent;
-            i -= 1;
+        var flamesStr = "flames";
+        //if string has less than 2 characters, do not iterate through the
+        // string
+        while (flamesStr.length >= 2) {
+            var j = 0;
+            var process = [];
+            // as flames is 6 chars long, ignore the cycles of '6'.
+            // what ever the reminder is will be the number we need to
+            // calculate the relation against.
+            var iCurrent = number % flamesStr.length;
+
+
+            if(iCurrent !== 0) {
+                //cut the string from pivot's next character until the end.
+                //call this headstring string
+                // ex: flame to lame
+                for (var i = iCurrent + 1; i <= flamesStr.length; i++) {
+                    process[j] = flamesStr.charAt(i - 1);
+                    j++;
+                }
+                // the prefix part apart from the cut part,
+                // call this tail string.
+                // this is important because the character striked off will
+                // be the one left out in this loop.
+                for (var i = 0; i <= iCurrent - 2; i++) {
+                    process[j] = flamesStr.charAt(i);
+                    j++;
+                }
+                //convert array back to a string
+                flamesStr = process.join("");
+            } else {
+                //if the characters are 6, remove the last letter and
+                // continue iteration
+                flamesStr = flamesStr.slice(0, -1);
+            }
         }
-        return this.getResultFromChar(flamesArray[0]);
+        return this.getResultFromChar(flamesStr);
     };
     // this function takes both the names and returns the number of
     // characters that arent common in botht the names.
