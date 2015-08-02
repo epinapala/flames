@@ -1,6 +1,6 @@
 {
   "name": "flames",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "An NPM module to calculate flames game relationship, given 2 names. ",
   "main": "index.js",
   "scripts": {
